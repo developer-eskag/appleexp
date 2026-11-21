@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Science Experiments — Sinora</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ── Tokens ── */
+:root {
+  --ink: #15120E;
+  --ink-soft: #221D17;
+  --white: #fff;
+  --surface: #FFFCF8;
+  --cream: #FBF6EF;
+  --cream-2: #F3EADD;
+  --amber: #F26A21;
+  --amber-deep: #C6510E;
+  --amber-soft: #FBEADB;
+  --line: #E7DCCD;
+  --muted: #232323;
+  --faint: #A99F93;
+  --display: 'Poppins', system-ui, sans-serif;
+  --body: 'Inter', system-ui, sans-serif;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fs-sm: 14px;
+  --fs-xs: 12px;
+  --r: 12px;
+  --r-lg: 18px;
+  --r-xl: 24px;
+  --r-pill: 999px;
+  --shadow-md: 0 8px 24px rgba(0,0,0,.08);
+  --ease: cubic-bezier(.22,.61,.36,1);
+  --speed: .4s;
+  --speed-fast: .25s;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--ink);
+  background: var(--cream);
+  -webkit-font-smoothing: antialiased;
+}
+img, video { display: block; max-width: 100%; }
+ul { list-style: none; }
+button { cursor: pointer; font: inherit; color: inherit; background: none; border: none; outline: none; }
+a { color: inherit; text-decoration: none; }
+
+/* ── Layout ── */
+.container {
+  width: min(100% - 44px, 1400px);
+  margin-inline: auto;
+}
+
+/* ── Section ── */
+.sci-section {
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+  padding-block: clamp(48px, 6vw, 80px);
+}
+
+/* ── Section Header ── */
+.sci-header {
+  margin-bottom: clamp(28px, 4vw, 44px);
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sci-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--amber);
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.sci-eyebrow::before {
+  content: '';
+  width: 20px;
+  height: 2px;
+  background: var(--amber);
+  flex-shrink: 0;
+}
+
+.sci-header h2 {
+  font-family: var(--display);
+  font-size: clamp(1.6rem, 2.9vw, 2.2rem);
+  font-weight: var(--fw-bold);
+  line-height: 1.15;
+  color: var(--ink);
+  margin-bottom: 14px;
+}
+
+.sci-header p {
+  color: var(--muted);
+  max-width: 600px;
+  line-height: 1.8;
+  font-size: 15px;
+}
+
+/* ── Experiment Tabs ── */
+.sci-tabs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: clamp(28px, 4vw, 44px);
+}
+
+.sci-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: var(--r-pill);
+  border: 1.5px solid var(--line);
+  background: transparent;
+  color: var(--faint);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  transition:
+    background var(--speed) var(--ease),
+    border-color var(--speed) var(--ease),
+    color var(--speed) var(--ease),
+    transform var(--speed-fast) var(--ease);
+}
+
+.sci-tab:hover:not(.active) {
+  border-color: var(--amber);
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+
+.sci-tab.active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--cream);
+}
+
+.sci-tab .tab-icon { font-size: 1rem; line-height: 1; }
+
+/* ── Panel ── */
+.sci-panel { display: none; }
+.sci-panel.active { display: block; }
+
+/* ── 3-Col Grid ── */
+.sci-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: start;
+  gap: clamp(24px, 3vw, 48px);
+}
+
+/* ── LEFT: Content ── */
+.sci-content h3 {
+  font-family: var(--display);
+  font-size: clamp(1.3rem, 2.2vw, 1.75rem);
+  font-weight: var(--fw-bold);
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+
+.sci-content p {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.8;
+  margin-bottom: 28px;
+}
+
+.sci-label-pair {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.sci-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  padding: 8px 18px;
+  border-radius: var(--r-pill);
+  width: fit-content;
+}
+
+.sci-label--conv {
+  background: rgba(0,0,0,.06);
+  color: var(--ink);
+}
+.sci-label--conv::before {
+  content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--ink); flex-shrink: 0;
+}
+.sci-label--lipo {
+  background: rgba(242,106,33,.08);
+  color: var(--ink);
+}
+.sci-label--lipo::before {
+  content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--amber); flex-shrink: 0;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .65rem;
+  padding: .65rem 1.6rem;
+  border-radius: var(--r-pill);
+  font-size: .9rem;
+  font-weight: var(--fw-semibold);
+  background: var(--amber);
+  color: #fff;
+  transition: background var(--speed) var(--ease), transform var(--speed-fast) var(--ease);
+}
+.btn:hover { background: var(--amber-deep); transform: translateY(-2px); }
+.btn svg { transition: transform var(--speed) var(--ease); }
+.btn:hover svg { transform: translateX(3px); }
+
+/* ── CENTER: Comparison Visual ── */
+.sci-visual { display: flex; flex-direction: column; }
+
+.sci-frame {
+  position: relative;
+  width: 100%;
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  /* background: var(--cream-2); */
+  /* square-ish frame for the comparison image */
+  aspect-ratio: 1/1 ;
+}
+
+.sci-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  /* object-fit: cover; */
+  opacity: 0;
+  transition: opacity 1.1s cubic-bezier(.4, 0, .2, 1);
+  will-change: opacity;
+}
+
+.sci-layer.active { opacity: 1; }
+
+/* placeholder when no real image */
+.sci-frame-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--faint);
+  font-size: 13px;
+  font-weight: var(--fw-semibold);
+}
+
+.sci-frame-placeholder .placeholder-icon {
+  font-size: 3rem;
+  opacity: .4;
+}
+
+/* Thumbnails */
+.sci-thumbs {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  position: relative;
+  padding-top: 24px;
+}
+
+.sci-thumb {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+}
+
+.sci-dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 2px solid var(--line);
+  transition: all .4s var(--ease);
+  flex-shrink: 0;
+}
+
+.sci-thumb.active .sci-dot {
+  border-color: var(--amber);
+  background: var(--amber);
+  box-shadow: 0 0 0 4px rgba(242,106,33,.15);
+}
+
+.sci-thumb:hover:not(.active) .sci-dot { border-color: var(--amber); }
+
+.sci-thumb-img {
+  width: 72px;
+  height: 56px;
+  border-radius: var(--r);
+  overflow: hidden;
+  border: 2px solid transparent;
+  background: var(--cream-2);
+  transition: border-color .4s var(--ease), transform .4s var(--ease), box-shadow .4s var(--ease);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--faint);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.sci-thumb-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sci-thumb.active .sci-thumb-img {
+  border-color: var(--amber);
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(242,106,33,.15);
+}
+
+.sci-thumb-label {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--faint);
+  transition: color .4s;
+}
+
+.sci-thumb.active .sci-thumb-label { color: var(--ink); }
+
+.sci-track {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--line);
+  border-radius: 2px;
+  z-index: 1;
+}
+
+.sci-track-fill {
+  position: absolute;
+  left: 0; top: 0;
+  height: 100%;
+  width: 0%;
+  background: var(--amber);
+  border-radius: 2px;
+  transition: width .6s var(--ease);
+}
+
+/* ── RIGHT: Video Column ── */
+.sci-video-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.sci-video-wrap {
+  position: relative;
+  width: 100%;
+  /* 9:16 tall video */
+  max-width: 325px;
+  aspect-ratio: 9 / 16;
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  background: var(--ink);
+  box-shadow: var(--shadow-md), 0 0 0 1px var(--line);
+}
+
+.sci-video-wrap video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Placeholder when no video src */
+.sci-video-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background: linear-gradient(160deg, #1c1710, #0e0d0b);
+  color: rgba(255,255,255,.35);
+  text-align: center;
+  padding: 24px;
+}
+
+.sci-video-placeholder .play-ring {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid rgba(242,106,33,.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--amber);
+  font-size: 1.4rem;
+}
+
+.sci-video-placeholder p {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: rgba(255,255,255,.4);
+  letter-spacing: .02em;
+}
+
+.sci-video-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--faint);
+  text-align: center;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1100px) {
+  .sci-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .sci-video-col {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 32px;
+  }
+
+  .sci-video-wrap {
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sci-tabs { justify-content: center; }
+
+  .sci-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sci-content { order: 1; }
+  .sci-visual { order: 2; }
+  .sci-video-col {
+    order: 3;
+    grid-column: auto;
+    flex-direction: column;
+  }
+
+  .sci-video-wrap { max-width: 240px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sci-layer { transition-duration: .01ms; }
+  .sci-track-fill, .sci-dot, .sci-thumb-img, .sci-thumb-label { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<section class="sci-section">
+  <div class="container">
+
+    <!-- Section Header -->
+    <div class="sci-header">
+      <div class="sci-eyebrow">R&amp;D Insights</div>
+      <h2>Real Antioxidant Protection.<br>Visible Results.</h2>
+      <p>Our liposomal serum delivers actives deeper and faster than conventional formulas. These experiments show the difference — across different subjects, over time.</p>
+    </div>
+
+    <!-- Experiment Tabs -->
+    <div class="sci-tabs" role="tablist" aria-label="Experiments">
+      <button class="sci-tab active" role="tab" aria-selected="true" aria-controls="panel-apple" data-tab="apple">
+        <span class="tab-icon">🍎</span> Apple
+      </button>
+      <button class="sci-tab" role="tab" aria-selected="false" aria-controls="panel-flower" data-tab="flower">
+        <span class="tab-icon">🌸</span> Flower
+      </button>
+      <!-- <button class="sci-tab" role="tab" aria-selected="false" aria-controls="panel-avocado" data-tab="avocado">
+        <span class="tab-icon">🥑</span> Avocado
+      </button> -->
+    </div>
+
+    <!-- ═══════════════════════════════════
+         PANEL 1 — Apple
+    ════════════════════════════════════ -->
+    <div class="sci-panel active" id="panel-apple" role="tabpanel">
+      <div class="sci-grid">
+
+        <!-- Content -->
+        <div class="sci-content">
+          <h3>Oxidation stopped. Freshness preserved.</h3>
+          <p>A cut apple was exposed to air over 24 hours. The untreated half turned brown within minutes — the half treated with our liposomal serum stayed visibly fresh, showing that our antioxidant actives penetrate and protect at a cellular level.</p>
+
+          <!-- <div class="sci-label-pair">
+            <span class="sci-label sci-label--conv">Conventional</span>
+            <span class="sci-label sci-label--lipo">With Liposomal Serum</span>
+          </div> -->
+
+          <a href="#" class="btn">
+            Explore the science
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12H19"/><path d="M13 6L19 12L13 18"/></svg>
+          </a>
+        </div>
+
+        <!-- Comparison Visual -->
+        <div class="sci-visual">
+          <div class="sci-frame" data-frame="apple">
+            <!-- Active layer shown; swap src with real images -->
+            <div class="sci-frame-placeholder">
+              <span class="placeholder-icon">🍎</span>
+              <!-- <span>Apple — 0 min</span> -->
+            </div>
+            <img class="sci-layer active" src="apple.webp" alt="Apple at 0 min" data-layer="0" onerror="this.style.display='none'">
+            <img class="sci-layer" src="aplpe-step-1.webp" alt="Apple at 30 min" data-layer="1" onerror="this.style.display='none'">
+            <img class="sci-layer" src="apple-step-2.webp" alt="Apple at 2 hr" data-layer="2" onerror="this.style.display='none'">
+            <img class="sci-layer" src="apple-step-3.webp" alt="Apple at 24 hr" data-layer="3" onerror="this.style.display='none'">
+          </div>
+
+          <div class="sci-thumbs" data-thumbs="apple">
+            <button class="sci-thumb active" data-tp="0" data-frame="apple">
+              <span class="sci-dot"></span>
+              <!-- <div class="sci-thumb-img">0</div> -->
+              <img src="apple.webp" alt="">
+              <span class="sci-thumb-label">0 min</span>
+            </button>
+            <button class="sci-thumb" data-tp="1" data-frame="apple">
+              <span class="sci-dot"></span>
+              <!-- <div class="sci-thumb-img">30</div> -->
+              <img src="aplpe-step-1.webp" alt="">
+              <span class="sci-thumb-label">30 min</span>
+            </button>
+            <button class="sci-thumb" data-tp="2" data-frame="apple">
+              <span class="sci-dot"></span>
+              <!-- <div class="sci-thumb-img">2h</div> -->
+              <img src="apple-step-2.webp" alt="">
+              <span class="sci-thumb-label">2 hr</span>
+            </button>
+            <button class="sci-thumb" data-tp="3" data-frame="apple">
+              <span class="sci-dot"></span>
+              <!-- <div class="sci-thumb-img">24h</div> -->
+              <img src="apple-step-3.webp" alt="">
+              <span class="sci-thumb-label">24 hr</span>
+            </button>
+            <div class="sci-track"><div class="sci-track-fill"></div></div>
+          </div>
+        </div>
+
+        <!-- Video -->
+        <div class="sci-video-col">
+          <div class="sci-video-wrap">
+            <!-- Replace src with real video when ready -->
+            <video src="Final Apple.mp4" autoplay muted loop playsinline></video>
+           <!--  <div class="sci-video-placeholder">
+              <div class="play-ring">▶</div>
+              <p>Apple experiment video</p>
+            </div> -->
+          </div>
+          <span class="sci-video-label">Watch the test</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════
+         PANEL 2 — Flower
+    ════════════════════════════════════ -->
+    <div class="sci-panel" id="panel-flower" role="tabpanel">
+      <div class="sci-grid">
+
+        <!-- Content -->
+        <div class="sci-content">
+          <h3>Lasting freshness. Wilting delayed.</h3>
+          <p>Fresh-cut flowers treated with our liposomal serum maintained their structure and colour far longer than untreated stems. The antioxidant complex slows cellular breakdown, extending vibrancy hours beyond what standard water alone achieves.</p>
+
+          <!-- <div class="sci-label-pair">
+            <span class="sci-label sci-label--conv">Conventional</span>
+            <span class="sci-label sci-label--lipo">With Liposomal Serum</span>
+          </div> -->
+
+          <a href="#" class="btn">
+            Explore the science
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12H19"/><path d="M13 6L19 12L13 18"/></svg>
+          </a>
+        </div>
+
+        <!-- Comparison Visual -->
+        <div class="sci-visual">
+          <div class="sci-frame" data-frame="flower">
+            <div class="sci-frame-placeholder">
+              <span class="placeholder-icon">🌸</span>
+              <!-- <span>Flower — 0 min</span> -->
+            </div>
+            <img class="sci-layer active" src="apple.webp" alt="Flower at 0 min" data-layer="0" onerror="this.style.display='none'">
+            <img class="sci-layer" src="aplpe-step-1.webp" alt="Flower at 30 min" data-layer="1" onerror="this.style.display='none'">
+            <img class="sci-layer" src="apple-step-2.webp" alt="Flower at 2 hr" data-layer="2" onerror="this.style.display='none'">
+            <img class="sci-layer" src="apple-step-3.webp" alt="Flower at 24 hr" data-layer="3" onerror="this.style.display='none'">
+          </div>
+
+          <div class="sci-thumbs" data-thumbs="flower">
+            <button class="sci-thumb active" data-tp="0" data-frame="flower">
+              <span class="sci-dot"></span>
+              <img src="apple.webp" alt="">
+              <span class="sci-thumb-label">0 min</span>
+            </button>
+            <button class="sci-thumb" data-tp="1" data-frame="flower">
+              <span class="sci-dot"></span>
+              <img src="aplpe-step-1.webp" alt="">
+              <span class="sci-thumb-label">30 min</span>
+            </button>
+            <button class="sci-thumb" data-tp="2" data-frame="flower">
+              <span class="sci-dot"></span>
+              <img src="apple-step-2.webp" alt="">
+              <span class="sci-thumb-label">2 hr</span>
+            </button>
+            <button class="sci-thumb" data-tp="3" data-frame="flower">
+              <span class="sci-dot"></span>
+              <img src="apple-step-3.webp" alt="">
+              <span class="sci-thumb-label">24 hr</span>
+            </button>
+            <div class="sci-track"><div class="sci-track-fill"></div></div>
+          </div>
+        </div>
+
+        <!-- Video -->
+        <div class="sci-video-col">
+          <div class="sci-video-wrap">
+            <video src="Fre (1).mp4" autoplay muted loop playsinline></video>
+            <!-- <div class="sci-video-placeholder">
+              <div class="play-ring">▶</div>
+              <p>Flower experiment video</p>
+            </div> -->
+          </div>
+          <span class="sci-video-label">Watch the test</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════
+         PANEL 3 — Avocado
+    ════════════════════════════════════ -->
+    <div class="sci-panel" id="panel-avocado" role="tabpanel">
+      <div class="sci-grid">
+
+        <!-- Content -->
+        <div class="sci-content">
+          <h3>Browning blocked. Colour intact.</h3>
+          <p>A sliced avocado treated with our liposomal serum resisted oxidation dramatically compared to the untreated half. The liposomal encapsulation allows actives to penetrate the surface and neutralise free radicals before browning begins.</p>
+
+          <div class="sci-label-pair">
+            <span class="sci-label sci-label--conv">Conventional</span>
+            <span class="sci-label sci-label--lipo">With Liposomal Serum</span>
+          </div>
+
+          <a href="#" class="btn">
+            Explore the science
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12H19"/><path d="M13 6L19 12L13 18"/></svg>
+          </a>
+        </div>
+
+        <!-- Comparison Visual -->
+        <div class="sci-visual">
+          <div class="sci-frame" data-frame="avocado">
+            <div class="sci-frame-placeholder">
+              <span class="placeholder-icon">🥑</span>
+              <span>Avocado — 0 min</span>
+            </div>
+            <img class="sci-layer active" src="" alt="Avocado at 0 min" data-layer="0" onerror="this.style.display='none'">
+            <img class="sci-layer" src="" alt="Avocado at 30 min" data-layer="1" onerror="this.style.display='none'">
+            <img class="sci-layer" src="" alt="Avocado at 2 hr" data-layer="2" onerror="this.style.display='none'">
+            <img class="sci-layer" src="" alt="Avocado at 24 hr" data-layer="3" onerror="this.style.display='none'">
+          </div>
+
+          <div class="sci-thumbs" data-thumbs="avocado">
+            <button class="sci-thumb active" data-tp="0" data-frame="avocado">
+              <span class="sci-dot"></span>
+              <div class="sci-thumb-img">0</div>
+              <span class="sci-thumb-label">0 min</span>
+            </button>
+            <button class="sci-thumb" data-tp="1" data-frame="avocado">
+              <span class="sci-dot"></span>
+              <div class="sci-thumb-img">30</div>
+              <span class="sci-thumb-label">30 min</span>
+            </button>
+            <button class="sci-thumb" data-tp="2" data-frame="avocado">
+              <span class="sci-dot"></span>
+              <div class="sci-thumb-img">2h</div>
+              <span class="sci-thumb-label">2 hr</span>
+            </button>
+            <button class="sci-thumb" data-tp="3" data-frame="avocado">
+              <span class="sci-dot"></span>
+              <div class="sci-thumb-img">24h</div>
+              <span class="sci-thumb-label">24 hr</span>
+            </button>
+            <div class="sci-track"><div class="sci-track-fill"></div></div>
+          </div>
+        </div>
+
+        <!-- Video -->
+        <div class="sci-video-col">
+          <div class="sci-video-wrap">
+            <!-- <video src="avocado-experiment.mp4" autoplay muted loop playsinline></video> -->
+            <div class="sci-video-placeholder">
+              <div class="play-ring">▶</div>
+              <p>Avocado experiment video</p>
+            </div>
+          </div>
+          <span class="sci-video-label">Watch the test</span>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function () {
+
+  /* ── Timepoint switcher ── */
+  function switchTimepoint(frameKey, index) {
+    var layers = document.querySelectorAll('.sci-layer[data-layer]');
+    var frame  = document.querySelector('.sci-frame[data-frame="' + frameKey + '"]');
+    if (!frame) return;
+
+    frame.querySelectorAll('.sci-layer').forEach(function (l) {
+      l.classList.toggle('active', parseInt(l.dataset.layer) === index);
+    });
+
+    var placeholder = frame.querySelector('.sci-frame-placeholder');
+
+    var thumbs = document.querySelectorAll('.sci-thumb[data-frame="' + frameKey + '"]');
+    thumbs.forEach(function (t) { t.classList.remove('active'); });
+
+    var active = document.querySelector('.sci-thumb[data-frame="' + frameKey + '"][data-tp="' + index + '"]');
+    if (active) active.classList.add('active');
+
+    var total = thumbs.length;
+    var fill  = document.querySelector('.sci-thumbs[data-thumbs="' + frameKey + '"] .sci-track-fill');
+    if (fill && total > 1) fill.style.width = (index / (total - 1)) * 100 + '%';
+  }
+
+  /* Wire timepoint thumbs */
+  document.querySelectorAll('.sci-thumb').forEach(function (thumb) {
+    thumb.addEventListener('click', function () {
+      switchTimepoint(thumb.dataset.frame, parseInt(thumb.dataset.tp));
+    });
+  });
+
+  /* ── Experiment tab switcher ── */
+  var tabs   = document.querySelectorAll('.sci-tab');
+  var panels = document.querySelectorAll('.sci-panel');
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      var target = tab.dataset.tab;
+
+      tabs.forEach(function (t) {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+
+      panels.forEach(function (p) {
+        var isTarget = p.id === 'panel-' + target;
+        p.classList.toggle('active', isTarget);
+
+        /* Pause/play videos on tab switch */
+        p.querySelectorAll('video').forEach(function (v) {
+          if (isTarget) { v.play && v.play().catch(function(){}); }
+          else          { v.pause && v.pause(); }
+        });
+      });
+    });
+  });
+
+})();
+</script>
+</body>
+</html>
