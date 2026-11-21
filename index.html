@@ -236,6 +236,36 @@ a { color: inherit; text-decoration: none; }
 /* ── CENTER: Comparison Visual ── */
 .sci-visual { display: flex; flex-direction: column; }
 
+/* Comparison Labels Above Image */
+.sci-comparison-labels {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.sci-comparison-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 18px;
+  border-radius: var(--r-pill);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .02em;
+}
+
+.sci-comparison-label--conv {
+  background: rgba(0,0,0,.06);
+  color: var(--ink);
+}
+
+.sci-comparison-label--lipo {
+  background: rgba(242,106,33,.10);
+  color: var(--amber-deep);
+}
+
 .sci-frame {
   position: relative;
   width: 100%;
@@ -539,6 +569,16 @@ a { color: inherit; text-decoration: none; }
 
         <!-- Comparison Visual -->
         <div class="sci-visual">
+          <!-- Comparison Labels -->
+          <div class="sci-comparison-labels">
+            <span class="sci-comparison-label sci-comparison-label--conv">
+              Conventional
+            </span>
+
+            <span class="sci-comparison-label sci-comparison-label--lipo">
+              Liposomal
+            </span>
+          </div>
           <div class="sci-frame" data-frame="apple">
             <!-- Active layer shown; swap src with real images -->
             <div class="sci-frame-placeholder">
@@ -584,7 +624,7 @@ a { color: inherit; text-decoration: none; }
         <div class="sci-video-col">
           <div class="sci-video-wrap">
             <!-- Replace src with real video when ready -->
-            <video src="apple.mp4" autoplay muted loop playsinline></video>
+            <video src="Final Apple.mp4" autoplay muted loop playsinline></video>
            <!--  <div class="sci-video-placeholder">
               <div class="play-ring">▶</div>
               <p>Apple experiment video</p>
@@ -622,6 +662,17 @@ a { color: inherit; text-decoration: none; }
 
         <!-- Comparison Visual -->
         <div class="sci-visual">
+
+          <!-- Comparison Labels -->
+          <div class="sci-comparison-labels">
+            <span class="sci-comparison-label sci-comparison-label--conv">
+              Conventional
+            </span>
+
+            <span class="sci-comparison-label sci-comparison-label--lipo">
+              Liposomal
+            </span>
+          </div>
           <div class="sci-frame" data-frame="flower">
             <div class="sci-frame-placeholder">
               <span class="placeholder-icon">🌸</span>
@@ -661,7 +712,7 @@ a { color: inherit; text-decoration: none; }
         <!-- Video -->
         <div class="sci-video-col">
           <div class="sci-video-wrap">
-            <video src="flower.mp4" autoplay muted loop playsinline></video>
+            <video src="Fre (1).mp4" autoplay muted loop playsinline></video>
             <!-- <div class="sci-video-placeholder">
               <div class="play-ring">▶</div>
               <p>Flower experiment video</p>
